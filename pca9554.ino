@@ -4,45 +4,43 @@
   
   INTRODUCTION
   ------------
-  This sketch offers a quick & simple code for testing that the PCA9536 is hooked-up and operating correctly.
-  The sketch begins by searching for the PCA9536 on the I2C Bus. I then moves on to get the various Register data available from the device
-  (Ambient Temperature, Limit, and Hysteresis). And finally, it verifies that the Alert functionality is working as it should (at least, 
-  in default mode).
+  This sketch offers a quick & simple code for testing that the PCA9554 is hooked-up and operating correctly.
   
-  INPORTANT: The current library depends on the Arduino IDE's native 'Wire' library for I2C communication between the Arduino (Master) and the PCA9536 (Slave).
+  INPORTANT: The current library depends on the Arduino IDE's native 'Wire' library for I2C communication between the Arduino (Master) and the PCA9554 (Slave).
   WIRING DIAGRAM
   --------------
-               PCA9536
+               PCA9554
                -------
-        IO0 --| •     |-- VCC
-              |       |
-        IO1 --|       |-- SDA
-              |       |
-        IO2 --|       |-- SCL
-              |       |
-        GND --|       |-- IO3
+        A0  --| •     |-- VCC
+        A1  --|       |-- SDA
+        A2  --|       |-- SCL
+        IO1 --|       |-- !INT
+        IO2 --|       |-- IO7
+        IO3 --|       |-- IO6
+        IO4 --|       |-- IO5
+        GND --|       |-- IO4
                -------
-  This hookup can be used with the following sketch:
-  PIN 1 (IO0) - Connect LED (anode via appropriate series resistor to Arduino 5V output & cathode to PCA9536 Pin 1)
-  PIN 2 (IO1) - Leave unconnected for the purpose of this sketch
-  PIN 3 (IO2) - Leave unconnected for the purpose of this sketch
-  PIN 4 (GND) - Connect to Arduino GND
-  PIN 5 (IO3) - Leave unconnected for the purpose of this sketch
-  PIN 6 (SCL) - Connect to Arduino Pin A5 with a 2K2 (400MHz) or 10K (100MHz) pull-up resistor
-  PIN 7 (SDA) - Connect to Arduino Pin A4 with a 2K2 (400MHz) or 10K (100MHz) pull-up resistor
-  PIN 8 (VCC) - Connect to Arduino 5V output
-  DECOUPING   - Connect a 0.1uF Ceramic Capacitor between the PCA9536's VCC & GND pins
-  I2C ADDRESS
-  -----------
-  The PCA9536 has a single I2C address (factory hardwired):
-    PART                DEVICE I2C ADDRESS         PART
-   NUMBER           (BIN)     (HEX)     (DEC)     MARKING
-  --------        --------    -----     -----     -------
-  PCA9536D        01000001    0x41       65       PCA9536
-  Note: The 'D' suffix of the Part Number denotes the SOIC-8 package
-  BUG REPORTS
-  -----------
-  Please report any bugs/issues/suggestions in the Github Repository of this library at: https://github.com/nadavmatalon/PCA9536/issues
+
+  PIN 1  (A0)   - HW address pin 0
+  PIN 2  (A1)   - HW address pin 1
+  PIN 3  (A2)   - HW address pin 2
+  PIN 4  (IO0)  - General I/O
+  PIN 5  (IO1)  - General I/O
+  PIN 6  (IO2)  - General I/O
+  PIN 7  (IO3)  - General I/O  
+  PIN 8  (GND)  - GND
+
+  PIN 9  (IO4)  - General I/O
+  PIN 10 (IO5)  - General I/O
+  PIN 11 (IO6)  - General I/O
+  PIN 12 (IO7)  - General I/O  
+  PIN 13 (!INT) - Pin change interrupt output, connect to interrupt pin on MCU to receive pin change notifications
+  PIN 14 (SCL)  - Connect to Arduino SCL with a 2K2 (400MHz) or 10K (100MHz) pull-up resistor
+  PIN 15 (SDA)  - Connect to Arduino SDA with a 2K2 (400MHz) or 10K (100MHz) pull-up resistor
+  PIN 16 (VCC)  - 3v3 / 5v
+  
+  DECOUPING   - Connect a 0.1uF Ceramic Capacitor between the PCA9554's VCC & GND pins
+  
   LICENSE
   -------
   The MIT License (MIT)
