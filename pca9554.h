@@ -167,7 +167,7 @@ namespace Pca9554 {
 
     class PCA9554 {
          public:
-            PCA9554(byte hwAddress);
+            PCA9554(TwoWire &selecedWire, byte hwAddress);
             ~PCA9554();
             byte ping();
             byte getMode(pin_t pin);
@@ -186,6 +186,7 @@ namespace Pca9554 {
          private:
             byte _comBuffer;
             byte address;
+            TwoWire *wire;
             byte getReg(reg_ptr_t regPtr);
             byte getPin(pin_t pin, reg_ptr_t regPtr);
             void setReg(reg_ptr_t ptr, byte newSetting);

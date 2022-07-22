@@ -36,9 +36,10 @@ __asm volatile ("nop");
     CONSTRUCTOR
  *==============================================================================================================*/
 
-PCA9554::PCA9554( byte hwAddress) {
+PCA9554::PCA9554( TwoWire &selecedWire, byte hwAddress) {
     _comBuffer = COM_SUCCESS;
     address = hwAddress;
+    wire = &selecedWire;
 }
 
 /*==============================================================================================================*
@@ -54,8 +55,8 @@ PCA9554::~PCA9554() {}
 // For meaning of I2C Error Codes see README
 
 byte PCA9554::ping() {
-    Wire.beginTransmission(DEV_ADDR + address);
-    return Wire.endTransmission();
+    wire->beginTransmission(DEV_ADDR + address);
+    return wire->endTransmission();
 }
 
 /*==============================================================================================================*
@@ -151,10 +152,10 @@ byte PCA9554::getReg(reg_ptr_t regPtr) {
     initCall(regPtr);
     endCall();
     if (_comBuffer == COM_SUCCESS) {
-        Wire.requestFrom((byte)(DEV_ADDR + address), NUM_BYTES);
-        if (Wire.available() == NUM_BYTES) regData = Wire.read();
+        wire->requestFrom((byte)(DEV_ADDR + address), NUM_BYTES);
+        if (wire->available() == NUM_BYTES) regData = wire->read();
         else {
-            while (Wire.available()) Wire.read();
+            while (wire->available()) wire->read();
             _comBuffer = ping();
         }
     }
@@ -176,7 +177,7 @@ byte PCA9554::getPin(pin_t pin, reg_ptr_t regPtr) {
 void PCA9554::setReg(reg_ptr_t regPtr, byte newSetting) {
     if (regPtr > 0) {
         initCall(regPtr);
-        Wire.write(newSetting);
+        wire->write(newSetting);
         endCall();
     }
 }
@@ -196,8 +197,8 @@ void PCA9554::setPin(pin_t pin, reg_ptr_t regPtr, byte newSetting) {
  *==============================================================================================================*/
 
 void PCA9554::initCall(reg_ptr_t regPtr) {
-    Wire.beginTransmission(DEV_ADDR + address);
-    Wire.write(regPtr);
+    wire->beginTransmission(DEV_ADDR + address);
+    wire->write(regPtr);
 }
 
 /*==============================================================================================================*
@@ -205,7 +206,7 @@ void PCA9554::initCall(reg_ptr_t regPtr) {
  *==============================================================================================================*/
 
 void PCA9554::endCall() {
-    _comBuffer = Wire.endTransmission();
+    _comBuffer = wire->endTransmission();
 }
 
 /*==============================================================================================================*

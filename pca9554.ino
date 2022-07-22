@@ -63,12 +63,13 @@
 
 #include "PCA9554.h"
 
-PCA9554 pca9554_0(0);
-PCA9554 pca9554_1(1);
+PCA9554 pca9554_0(Wire1, 0);
+PCA9554 pca9554_1(Wire1, 1);
 
 void setup() {
     Serial.begin(9600);
     Wire.begin();
+    Wire1.begin();
     while(!Serial);
     printDivider();
     Serial.print(F("\nPCA9536 DEVICE TESTING\n"));
